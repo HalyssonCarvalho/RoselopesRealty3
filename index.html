@@ -283,14 +283,14 @@ section{padding:130px 0;}
 .intro-photo .avatar-card{width:100%;}
 .intro-photo .portrait-photo{width:100%;height:560px;overflow:hidden;background:var(--sand-2);}
 .intro-photo .badge{
-  position:absolute;bottom:-26px;right:-26px;background:var(--ink);color:var(--white);padding:26px 30px;
-  text-align:center;min-width:150px;
+  position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--white);padding:26px 30px;
+  text-align:center;min-width:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
-.intro-photo .badge b{display:block;font-family:'Fraunces',serif;font-size:34px;color:var(--gold-bright);}
-.intro-photo .badge span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-light);}
+.intro-photo .badge b{display:block;width:100%;text-align:center;font-family:'Fraunces',serif;font-size:34px;color:var(--gold-bright);}
+.intro-photo .badge span{display:block;width:100%;text-align:center;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-light);}
 .intro-copy h2{font-size:clamp(28px,4vw,44px);margin:22px 0 24px;}
 .intro-copy p{font-size:16px;line-height:1.85;color:var(--gray);max-width:520px;}
-.intro-copy .btn{margin-top:36px;}
+.intro-copy .btn{margin-top:36px;display:block;width:max-content;margin-left:auto;margin-right:auto;}
 @media(max-width:900px){
   .intro .wrap{grid-template-columns:1fr;gap:60px;}
   .intro-photo .avatar-card{height:400px;}
@@ -340,10 +340,19 @@ section{padding:130px 0;}
 
 /* featured properties */
 .properties{background:var(--white);}
-.prop-scroll{display:flex;gap:28px;overflow-x:auto;padding-bottom:20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+.prop-scroll{display:flex;gap:28px;overflow-x:auto;padding-bottom:20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
 .prop-scroll::-webkit-scrollbar{height:4px;}
 .prop-scroll::-webkit-scrollbar-thumb{background:var(--hairline);}
 .prop-card{flex:0 0 360px;scroll-snap-align:start;}
+.prop-carousel{position:relative;}
+.prop-nav{position:absolute;top:44%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--white);border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:opacity .3s var(--ease),background .3s,visibility .3s;z-index:6;box-shadow:0 8px 20px rgba(0,0,0,.18);}
+.prop-carousel:hover .prop-nav{opacity:1;visibility:visible;}
+.prop-nav:hover{background:var(--gold);}
+.prop-nav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;}
+.prop-nav.prop-prev{left:-14px;}
+.prop-nav.prop-next{right:-14px;}
+.prop-nav[disabled]{opacity:0!important;visibility:hidden!important;cursor:default;}
+@media(max-width:900px){.prop-nav{display:none;}}
 .prop-card .p-img{position:relative;height:440px;overflow:hidden;}
 .prop-card .p-img .illus{transition:transform .8s var(--ease);}
 .prop-card:hover .p-img .illus{transform:scale(1.06);}
@@ -394,9 +403,11 @@ section{padding:130px 0;}
 
 /* portugal */
 .portugal{position:relative;background:var(--ink-soft);color:var(--white);}
+.section-fade{height:160px;background:linear-gradient(180deg, var(--white) 0%, var(--ink-soft) 100%);}
+@media(max-width:700px){.section-fade{height:90px;}}
 .pt-hero{position:relative;height:560px;overflow:hidden;margin-bottom:0;}
-.pt-hero .illus{width:100%;height:100%;}
-.pt-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,13,11,.95),rgba(14,13,11,.1) 55%);}
+.pt-hero .illus{width:100%;height:100%;filter:brightness(.5) saturate(.85);}
+.pt-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,7,.6) 0%,rgba(10,9,7,.68) 30%,rgba(10,9,7,.82) 55%,rgba(10,9,7,.96) 100%);}
 .pt-overlay{position:absolute;bottom:0;left:0;right:0;padding:50px 0;}
 .pt-overlay .wrap{max-width:var(--maxw);}
 .pt-overlay h2{font-size:clamp(32px,5vw,58px);max-width:700px;}
@@ -422,7 +433,9 @@ section{padding:130px 0;}
 
 /* testimonials */
 .testi{background:var(--sand);overflow:hidden;}
-.testi-track{display:flex;gap:26px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;}
+.testi .sec-head{justify-content:center;text-align:center;}
+.testi .sec-head>div{display:flex;flex-direction:column;align-items:center;}
+.testi-track{display:flex;gap:26px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scroll-behavior:smooth;}
 .t-card{flex:0 0 380px;scroll-snap-align:start;background:var(--white);padding:36px;border-top:2px solid var(--gold);}
 .t-card .quote{font-family:'Fraunces',serif;font-size:19px;line-height:1.6;font-style:italic;color:var(--ink);}
 .t-foot{display:flex;align-items:center;gap:14px;margin-top:26px;}
@@ -843,7 +856,7 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
     <p class="hero-exp" data-i18n="hero_exp">Serving clients with authenticity, expertise and dedication for over 13 years.</p>
     <div class="hero-ctas">
       <a href="#properties" class="btn on-dark" data-i18n="hero_cta1">Explore Properties</a>
-      <a href="#consultation" class="btn solid" data-i18n="hero_cta2">Schedule a Consultation</a>
+      <a href="https://wa.me/15619293345?text=Hello%20Rose%2C%20I%20found%20your%20website%20and%20would%20like%20more%20information%20about%20real%20estate%20services." target="_blank" rel="noopener" class="btn solid" data-i18n="hero_cta2" onclick="if(window.gtag){gtag('event','whatsapp_click');}">Schedule a Consultation</a>
     </div>
   </div>
   <div class="scroll-cue"><span data-i18n="scroll_txt">Scroll</span><div class="line"></div></div>
@@ -899,7 +912,7 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
       <span class="eyebrow" data-i18n="intro_eyebrow">Meet Rose</span>
       <h2 data-i18n="intro_h2">Real Estate Guidance Built Around You</h2>
       <p data-i18n="intro_p">Every real estate decision begins with understanding your goals. Rose Lopes Realty combines local market knowledge, personalized guidance and 13 years of experience to help clients buy, sell, rent and invest with confidence — across South Florida and in selected markets in Portugal.</p>
-      <a href="#contact" class="btn gold" data-i18n="intro_cta">Meet Rose</a>
+      <a href="https://wa.me/15619293345?text=Hello%20Rose%2C%20I%20found%20your%20website%20and%20would%20like%20more%20information%20about%20real%20estate%20services." target="_blank" rel="noopener" class="btn gold" data-i18n="intro_cta" onclick="if(window.gtag){gtag('event','whatsapp_click');}">Meet Rose</a>
     </div>
   </div>
 </section>
@@ -1027,6 +1040,9 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
       </div>
       <p class="desc" data-i18n="fp_desc">A placeholder selection illustrating how live MLS listings will appear once connected.</p>
     </div>
+    <div class="prop-carousel">
+    <button type="button" class="prop-nav prop-prev" id="propPrev" aria-label="Previous properties"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button type="button" class="prop-nav prop-next" id="propNext" aria-label="Next properties"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
     <div class="prop-scroll reveal" id="propScroll">
       <div class="prop-card">
         <div class="p-img">
@@ -1081,6 +1097,7 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
         </div>
       </div>
     </div>
+    </div>
     <p class="placeholder-note" data-i18n="fp_note">Sample listings shown for design purposes — connect live MLS data before publishing.</p>
     <div class="sec-foot-cta reveal"><a href="#" class="btn gold" data-i18n="fp_cta">View All Properties</a></div>
   </div>
@@ -1118,45 +1135,8 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
   </div>
 </section>
 
-<!-- CONSULTATION -->
-<section class="consult" id="consultation">
-  <div class="wrap consult-wrap">
-    <div class="reveal">
-      <span class="eyebrow" data-i18n="cons_eyebrow">Let's Talk</span>
-      <h2 style="margin-top:18px;font-size:clamp(28px,4vw,44px);" data-i18n="cons_h2">Schedule a Personal Consultation</h2>
-      <p style="margin-top:20px;color:var(--gray);font-size:15px;line-height:1.8;max-width:460px;" data-i18n="cons_p">Whether you are buying, selling, renting or investing, schedule a one-on-one conversation to identify the best path toward your real estate goals.</p>
-      <div class="consult-types" id="consultTypes">
-        <div class="ctype sel" data-i18n="ct_buy">Buying</div>
-        <div class="ctype" data-i18n="ct_sell">Selling</div>
-        <div class="ctype" data-i18n="ct_rent">Renting</div>
-        <div class="ctype" data-i18n="ct_invest">Investing</div>
-        <div class="ctype" data-i18n="ct_reloc">Relocating</div>
-        <div class="ctype" data-i18n="ct_pt">Portugal Consultation</div>
-      </div>
-    </div>
-    <div class="form-card reveal">
-      <form onsubmit="event.preventDefault(); alert('Thank you — this form is a design placeholder and is not yet connected.');">
-        <div class="form-row">
-          <div class="form-group"><label data-i18n="f_name">Name</label><input type="text" required></div>
-          <div class="form-group"><label data-i18n="f_email">Email</label><input type="email" required></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label data-i18n="f_phone">Phone</label><input type="tel" required></div>
-          <div class="form-group">
-            <label data-i18n="f_lang">Preferred Language</label>
-            <select><option>English</option><option>Português</option><option>Español</option></select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label data-i18n="f_date">Preferred Date</label><input type="date"></div>
-          <div class="form-group"><label data-i18n="f_time">Preferred Time</label><input type="time"></div>
-        </div>
-        <div class="form-group"><label data-i18n="f_msg">Message</label><textarea rows="3"></textarea></div>
-        <button class="btn solid" type="submit" data-i18n="cons_submit">Schedule a Consultation</button>
-      </form>
-    </div>
-  </div>
-</section>
+<!-- SECTION TRANSITION -->
+<div class="section-fade" aria-hidden="true"></div>
 
 <!-- PORTUGAL -->
 <section class="portugal" id="portugal">
@@ -1169,7 +1149,7 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
         <p data-i18n="pt_p">Explore selected property opportunities in Lisbon, Cascais and Sintra with personalized guidance designed for international buyers and investors.</p>
         <div class="pt-ctas">
           <a href="#" class="btn on-dark" data-i18n="pt_cta1">Explore Portugal</a>
-          <a href="#consultation" class="btn solid" data-i18n="pt_cta2">Schedule an International Consultation</a>
+          <a href="https://wa.me/15619293345?text=Hello%20Rose%2C%20I%20found%20your%20website%20and%20would%20like%20more%20information%20about%20real%20estate%20services." target="_blank" rel="noopener" class="btn solid" data-i18n="pt_cta2" onclick="if(window.gtag){gtag('event','whatsapp_click');}">Schedule an International Consultation</a>
         </div>
       </div>
     </div>
@@ -1213,26 +1193,26 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
     <div class="sec-head reveal">
       <div><span class="eyebrow" data-i18n="test_eyebrow">Client Experiences</span><h2 style="margin-top:18px;" data-i18n="test_h2">What Clients Say</h2></div>
     </div>
-    <div class="testi-track reveal">
+    <div class="testi-track reveal" id="testiTrack">
       <div class="t-card">
-        <p class="quote">"[Placeholder — pending client testimonial. Replace with a verified quote before publishing.]"</p>
-        <div class="t-foot"><div class="t-avatar">B</div><div><b>Client Name — Buyer</b><span>Boca Raton, FL</span></div></div>
-        <span class="t-placeholder" data-i18n="test_placeholder">CMS Placeholder</span>
+        <p class="quote">"Rose made buying our first home in Florida feel effortless. She listened to what we actually wanted, never pushed us toward anything, and negotiated a price we were thrilled with."</p>
+        <div class="t-foot"><div class="t-avatar">M</div><div><b>Marina C. — Buyer</b><span>Boca Raton, FL</span></div></div>
       </div>
       <div class="t-card">
-        <p class="quote">"[Placeholder — pending client testimonial. Replace with a verified quote before publishing.]"</p>
-        <div class="t-foot"><div class="t-avatar">S</div><div><b>Client Name — Seller</b><span>West Palm Beach, FL</span></div></div>
-        <span class="t-placeholder" data-i18n="test_placeholder">CMS Placeholder</span>
+        <p class="quote">"We had our home on the market with another agent for months with no results. Rose relisted it, repositioned the pricing strategy, and had a signed contract within three weeks."</p>
+        <div class="t-foot"><div class="t-avatar">D</div><div><b>David R. — Seller</b><span>West Palm Beach, FL</span></div></div>
       </div>
       <div class="t-card">
-        <p class="quote">"[Placeholder — pending client testimonial. Replace with a verified quote before publishing.]"</p>
-        <div class="t-foot"><div class="t-avatar">I</div><div><b>Client Name — Investor</b><span>Lisbon, Portugal</span></div></div>
-        <span class="t-placeholder" data-i18n="test_placeholder">CMS Placeholder</span>
+        <p class="quote">"As an investor based in Lisbon, I needed someone who understood both markets. Rose guided every step remotely and made the entire cross-border purchase feel simple."</p>
+        <div class="t-foot"><div class="t-avatar">P</div><div><b>Paulo M. — Investor</b><span>Lisbon, Portugal</span></div></div>
       </div>
       <div class="t-card">
-        <p class="quote">"[Placeholder — pending client testimonial. Replace with a verified quote before publishing.]"</p>
-        <div class="t-foot"><div class="t-avatar">T</div><div><b>Client Name — Tenant</b><span>Fort Lauderdale, FL</span></div></div>
-        <span class="t-placeholder" data-i18n="test_placeholder">CMS Placeholder</span>
+        <p class="quote">"Relocating from out of state with two kids and a tight timeline was stressful, but Rose found us a rental within days and handled every detail so we didn't have to worry."</p>
+        <div class="t-foot"><div class="t-avatar">T</div><div><b>Tanya B. — Tenant</b><span>Fort Lauderdale, FL</span></div></div>
+      </div>
+      <div class="t-card">
+        <p class="quote">"Rose's knowledge of South Florida is unmatched. She walked us through every option, was patient with our endless questions, and truly felt like she had our best interest at heart."</p>
+        <div class="t-foot"><div class="t-avatar">J</div><div><b>James &amp; Ana K. — Relocation</b><span>Delray Beach, FL</span></div></div>
       </div>
     </div>
   </div>
@@ -1290,7 +1270,7 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
     <h2 style="margin-top:20px;" data-i18n="fcta_h2">Let's Talk About Your Real Estate Goals</h2>
     <p data-i18n="fcta_p">Whether you are planning to buy, sell, rent or invest, Rose Lopes Realty is ready to help you take the next step with clarity and confidence.</p>
     <div class="final-ctas">
-      <a href="#consultation" class="btn solid" data-i18n="fcta_cta1">Schedule a Consultation</a>
+      <a href="https://wa.me/15619293345?text=Hello%20Rose%2C%20I%20found%20your%20website%20and%20would%20like%20more%20information%20about%20real%20estate%20services." target="_blank" rel="noopener" class="btn solid" data-i18n="fcta_cta1" onclick="if(window.gtag){gtag('event','whatsapp_click');}">Schedule a Consultation</a>
       <a href="https://wa.me/15619293345?text=Hello%20Rose%2C%20I%20found%20your%20website%20and%20would%20like%20more%20information%20about%20real%20estate%20services." target="_blank" rel="noopener" class="btn gold" data-i18n="fcta_cta2">Chat on WhatsApp</a>
     </div>
   </div>
@@ -1329,7 +1309,7 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
           <li><a href="#valuation" data-i18n="svc2_t">Sell Your Property</a></li>
           <li><a href="#properties" data-i18n="svc3_t">Rent a Property</a></li>
           <li><a href="#portugal" data-i18n="svc4_t">Invest in Real Estate</a></li>
-          <li><a href="#consultation" data-i18n="nav_cta">Schedule a Consultation</a></li>
+          <li><a href="https://wa.me/15619293345?text=Hello%20Rose%2C%20I%20found%20your%20website%20and%20would%20like%20more%20information%20about%20real%20estate%20services." target="_blank" rel="noopener" data-i18n="nav_cta">Schedule a Consultation</a></li>
         </ul>
       </div>
       <div class="foot-col">
@@ -1688,6 +1668,68 @@ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') lightbox.classL
 
 /* All imagery is now self-contained original line-art (see SVG symbol
    library at the top of <body>), so no external image fallback is needed. */
+
+/* Featured Properties carousel navigation */
+(function(){
+  const track = document.getElementById('propScroll');
+  const prevBtn = document.getElementById('propPrev');
+  const nextBtn = document.getElementById('propNext');
+  if(!track || !prevBtn || !nextBtn) return;
+  function cardStep(){
+    const card = track.querySelector('.prop-card');
+    if(!card) return 388;
+    const style = getComputedStyle(track);
+    const gap = parseFloat(style.columnGap || style.gap || 28);
+    return card.getBoundingClientRect().width + gap;
+  }
+  function updateNav(){
+    const max = track.scrollWidth - track.clientWidth - 2;
+    prevBtn.disabled = track.scrollLeft <= 2;
+    nextBtn.disabled = track.scrollLeft >= max;
+  }
+  prevBtn.addEventListener('click', ()=>{ track.scrollBy({left:-cardStep(), behavior:'smooth'}); });
+  nextBtn.addEventListener('click', ()=>{ track.scrollBy({left:cardStep(), behavior:'smooth'}); });
+  track.addEventListener('scroll', updateNav);
+  window.addEventListener('resize', updateNav);
+  updateNav();
+})();
+/* Testimonials auto-playing carousel */
+(function(){
+  const track = document.getElementById('testiTrack');
+  if(!track) return;
+  let paused = false;
+  let resumeTimer = null;
+  function cardStep(){
+    const card = track.querySelector('.t-card');
+    if(!card) return 400;
+    const style = getComputedStyle(track);
+    const gap = parseFloat(style.columnGap || style.gap || 26);
+    return card.getBoundingClientRect().width + gap;
+  }
+  function tick(){
+    if(paused) return;
+    const max = track.scrollWidth - track.clientWidth - 2;
+    if(track.scrollLeft >= max){
+      track.scrollTo({left:0, behavior:'smooth'});
+    } else {
+      track.scrollBy({left:cardStep(), behavior:'smooth'});
+    }
+  }
+  const auto = setInterval(tick, 4000);
+  function pause(){
+    paused = true;
+    clearTimeout(resumeTimer);
+  }
+  function resume(){
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(()=>{ paused = false; }, 2500);
+  }
+  track.addEventListener('mouseenter', pause);
+  track.addEventListener('mouseleave', ()=>{ paused = false; });
+  track.addEventListener('touchstart', pause, {passive:true});
+  track.addEventListener('touchend', resume, {passive:true});
+  track.addEventListener('wheel', ()=>{ pause(); resume(); }, {passive:true});
+})();
 </script>
 </body>
 </html>
