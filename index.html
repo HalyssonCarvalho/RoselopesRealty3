@@ -322,15 +322,15 @@ section{padding:130px 0;}
 .svc-card{background:var(--sand);padding:44px 30px;min-height:400px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;transition:background .4s;}
 .svc-card::before{content:"";position:absolute;inset:0;background:var(--ink);opacity:0;transition:opacity .5s var(--ease);}
 .svc-card .illus{opacity:0;transition:opacity .6s var(--ease),transform .8s var(--ease);transform:scale(1.1);}
-.svc-card:hover .illus{opacity:1;transform:scale(1);}
-.svc-card:hover::before{opacity:.35;}
+.svc-card:hover .illus,.svc-card.active .illus{opacity:1;transform:scale(1);}
+.svc-card:hover::before,.svc-card.active::before{opacity:.35;}
 .svc-num{font-size:12px;color:var(--gold);letter-spacing:.14em;position:relative;z-index:2;}
 .svc-card h3{font-size:26px;margin:22px 0 14px;position:relative;z-index:2;transition:color .4s;}
-.svc-card:hover h3{color:var(--white);}
+.svc-card:hover h3,.svc-card.active h3{color:var(--white);}
 .svc-card p{font-size:13.5px;line-height:1.7;color:var(--gray);position:relative;z-index:2;transition:color .4s;}
-.svc-card:hover p{color:rgba(255,255,255,.85);}
+.svc-card:hover p,.svc-card.active p{color:rgba(255,255,255,.85);}
 .svc-card .svc-cta{margin-top:20px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold);position:relative;z-index:2;display:flex;align-items:center;gap:8px;transition:color .4s;}
-.svc-card:hover .svc-cta{color:var(--gold-bright);}
+.svc-card:hover .svc-cta,.svc-card.active .svc-cta{color:var(--gold-bright);}
 @media(max-width:1000px){.svc-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:600px){.svc-grid{grid-template-columns:1fr;}.svc-card{min-height:280px;}}
 
@@ -371,7 +371,18 @@ section{padding:130px 0;}
 .prop-nav.prop-prev{left:-14px;}
 .prop-nav.prop-next{right:-14px;}
 .prop-nav[disabled]{opacity:0!important;visibility:hidden!important;cursor:default;}
-@media(max-width:900px){.prop-nav{display:none;}}
+@media(max-width:900px){
+  .prop-nav.prop-prev{display:none;}
+  .prop-nav.prop-next{
+    display:flex;opacity:1;visibility:visible;width:40px;height:40px;right:6px;top:40%;
+    animation:propNudge 1.6s ease-in-out infinite;
+  }
+  .prop-nav.prop-next[disabled]{animation:none;}
+}
+@keyframes propNudge{
+  0%,100%{transform:translateY(-50%) translateX(0);}
+  50%{transform:translateY(-50%) translateX(6px);}
+}
 .prop-card .p-img{position:relative;height:440px;overflow:hidden;}
 .prop-card .p-img .illus{transition:transform .8s var(--ease);}
 .prop-card:hover .p-img .illus{transform:scale(1.06);}
@@ -422,9 +433,9 @@ section{padding:130px 0;}
 
 /* portugal */
 .portugal{position:relative;background:var(--ink-soft);color:var(--white);}
-.pt-hero{position:relative;min-height:420px;overflow:hidden;margin-bottom:0;background:var(--ink);}
+.pt-hero{position:relative;min-height:420px;overflow:visible;margin-bottom:0;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .pt-hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,9,7,.6) 0%,rgba(10,9,7,.68) 30%,rgba(10,9,7,.82) 55%,rgba(10,9,7,.96) 100%);}
-.pt-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:50px 24px;}
+.pt-overlay{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:50px 24px;width:100%;box-sizing:border-box;}
 .pt-overlay .wrap{max-width:var(--maxw);display:flex;flex-direction:column;align-items:center;}
 .pt-overlay .eyebrow{justify-content:center;}
 .pt-overlay h2{font-size:clamp(32px,5vw,58px);max-width:700px;margin-left:auto;margin-right:auto;}
@@ -1773,6 +1784,19 @@ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') lightbox.classL
     clone.setAttribute('aria-hidden', 'true');
     marquee.appendChild(clone);
   });
+})();
+/* Buy/Sell/Rent/Invest cards: auto-reveal photos in a left-to-right cascade, works on desktop and mobile */
+(function(){
+  const cards = Array.from(document.querySelectorAll('.svc-card'));
+  if(!cards.length) return;
+  let i = 0;
+  function step(){
+    cards.forEach(c => c.classList.remove('active'));
+    cards[i].classList.add('active');
+    i = (i + 1) % cards.length;
+  }
+  step();
+  setInterval(step, 2000);
 })();
 </script>
 </body>
