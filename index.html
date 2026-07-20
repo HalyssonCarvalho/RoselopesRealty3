@@ -209,7 +209,7 @@ header#site-nav.solid .burger span{background:var(--ink);}
   color:var(--ink);overflow:hidden;background:var(--sand);padding:0;box-sizing:border-box;
 }
 .hero-bg{position:absolute;inset:0;border-radius:0;overflow:hidden;box-shadow:none;}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:8% 44%;transform:scale(1.08);animation:heroScale 12s var(--ease) forwards;display:block;}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:55% 44%;transform:scale(1.08);animation:heroScale 12s var(--ease) forwards;display:block;}
 @keyframes heroScale{to{transform:scale(1);}}
 .hero-bg::after{
   content:"";position:absolute;inset:0;
@@ -1358,10 +1358,10 @@ footer{background:var(--ink-soft);color:rgba(255,255,255,.7);padding:90px 0 30px
 <!-- TESTIMONIALS -->
 <section class="testi" id="testimonials">
   <div class="wrap">
-    <div class="sec-head reveal">
+    <div class="sec-head">
       <div><span class="eyebrow" data-i18n="test_eyebrow">Client Experiences</span><h2 style="margin-top:18px;" data-i18n="test_h2">What Clients Say</h2></div>
     </div>
-    <div class="testi-track reveal" id="testiTrack">
+    <div class="testi-track" id="testiTrack">
       <div class="testi-marquee" id="testiMarquee">
         <div class="t-card">
           <p class="quote">"Rose made buying our first home in Florida feel effortless. She listened to what we actually wanted, never pushed us toward anything, and negotiated a price we were thrilled with."</p>
@@ -1813,6 +1813,12 @@ const observer = new IntersectionObserver((entries)=>{
   });
 }, {threshold:.15, rootMargin:'0px 0px -60px 0px'});
 document.querySelectorAll('.reveal, .reveal-mask').forEach(el=>observer.observe(el));
+/* Failsafe: if for any reason the observer doesn't fire for an element (e.g. unusual
+   viewport/timing edge cases), force it visible after a short delay so content is
+   never left permanently hidden. */
+setTimeout(()=>{
+  document.querySelectorAll('.reveal:not(.in), .reveal-mask:not(.in)').forEach(el=>el.classList.add('in'));
+}, 2500);
 
 /* ============ AREAS INTERACTIVE BG ============ */
 const areaRows = document.querySelectorAll('.area-row');
